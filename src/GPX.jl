@@ -9,8 +9,6 @@ function parse_gpx(path_to_xml::String)
     if root_node.name != "gpx"
         throw(ArgumentError("Root element must be <gpx>"))
     end
-    version = root_node["version"]
-    return version
-end
+    return root["version"]
 
 end
