@@ -1,0 +1,11 @@
+# Don't forget to run
+#
+#     pkg> dev ..
+#
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+LiveServer = "16fef848-5104-11e9-1b77-fb7a48bbb589"
+GPX = "ee3a5d9d-6c02-5b26-ac74-3db00b4a5f5e"
+
+[compat]
+Documenter = "1"
