@@ -1,5 +1,10 @@
+# Type definitions for the GPX schema
+# https://www.topografix.com/GPX/1/1/
+
 using AcuteML
 using GeoInterface
+using Dates
+
 
 @aml mutable struct Gpx "gpxType"
     version::String, "~"
@@ -35,6 +40,20 @@ end
     extensions::Union{String, Nothing}, "~"
 end
 
+
+@aml mutable struct Bounds "boundsType"
+    minlat::Number, "~"
+    minlon::Number, "~"
+    maxlat::Number, "~"
+    maxlon::Number, "~"
+end
+
+
+@aml mutable struct TrackSegment "trksegType"
+    points::Vector{WayPoint}
+    extensions::Union{String, Nothing}, "~"
+end
+
 @aml mutable struct Track "trkType"
     name::Union{String, Nothing}, "~"
     cmt::Union{String, Nothing}, "~"
@@ -47,10 +66,6 @@ end
     segments::Vector{TrackSegment}
 end
 
-@aml mutable struct TrackSegment "trksegType"
-    points::Vector{WayPoint}
-    extensions::Union{String, Nothing}, "~"
-end
 
 @aml mutable struct Route "rteType"
     name::Union{String, Nothing}, "~"
@@ -89,3 +104,35 @@ end
     dgpsid::Union{Number, Nothing}, "~"
     extensions::Union{String, Nothing}, "~"
 end
+
+
+# Constraints for WayPoint
+latCheck(lat) = lat >= -90 && lat <= 90
+lonCheck(lon) = lon >= -180 && lon <= 180
+magvarCheck(magvar) = magvar >= 0 && magvar <= 360
+geoidheightCheck(geoidheight) = geoidheight >= 0
+fixCheck(fix) = fix in ["none", "2d", "3d", "dgps", "pps"]
+satCheck(sat) = sat >= 0 
+hdopCheck(hdop) = hdop >= 0
+vdopCheck(vdop) = vdop >= 0
+pdopCheck(pdop) = pdop >= 0
+ageofdgpsdataCheck(ageofdgpsdata) = ageofdgpsdata >= 0
+dgpsidCheck(dgpsid) = dgpsid >= 0 && dgpsid <= 1023
+
+# Constraints for TrackType
+
+
+# Constraints for RouteType
+numberCheck(number) = number >= 0
+
+# Constraints for linkType
+pattern_url = r"https?://(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+pattern_mime = r"^[a-zA-Z0-9]+/[a-zA-Z0-9\-\+\.]+(;[a-zA-Z0-9\-\+\.]+=[a-zA-Z0-9\-\+\.]+)*$"
+hrefCheck(href) = pattern_url.match(href) 
+mimeCheck(mime) = pattern_mime.match(mime)
+
+# Constraints for boundsType
+minlatCheck(minlat) = latCheck(minlat)
+minlonCheck(minlon) = lonCheck(minlon)
+maxlatCheck(maxlat) = latCheck(maxlat)
+maxlonCheck(maxlon) = lonCheck(maxlon)
