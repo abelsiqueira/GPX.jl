@@ -6,14 +6,12 @@ using GeoInterface
 using Dates
 
 
-@aml mutable struct Gpx "gpxType"
-    version::String, "~"
-    creator::String, "~"
-    metadata::Union{Metadata, Nothing}, "~"
-    waypoints::Vector{WayPoint}
-    routes::Vector{Route}
-    tracks::Vector{Track}
-    extensions::Union{String, Nothing}, "~"
+
+
+@aml mutable struct Link "linkType"
+    href::String, "~"
+    text::Union{String, Nothing}, "~"
+    type::Union{String, Nothing}, "~"
 end
 
 @aml mutable struct Person "personType"
@@ -22,11 +20,13 @@ end
     link::Union{Link, Nothing}, "~"
 end
 
-@aml mutable struct Link "linkType"
-    href::String, "~"
-    text::Union{String, Nothing}, "~"
-    type::Union{String, Nothing}, "~"
+@aml mutable struct Bounds "boundsType"
+    minlat::Number, "~"
+    minlon::Number, "~"
+    maxlat::Number, "~"
+    maxlon::Number, "~"
 end
+
 
 @aml mutable struct Metadata "metadataType"
     name::Union{String, Nothing}, "~"
@@ -40,19 +40,35 @@ end
     extensions::Union{String, Nothing}, "~"
 end
 
-
-@aml mutable struct Bounds "boundsType"
-    minlat::Number, "~"
-    minlon::Number, "~"
-    maxlat::Number, "~"
-    maxlon::Number, "~"
+@aml mutable struct WayPoint  "wptType"
+    lat::Number, "~"
+    lon::Number, "~"
+    ele::Union{Number, Nothing}, "~"
+    time::Union{DateTime, Nothing}, "~"
+    magvar::Union{Number, Nothing}, "~"
+    geoidheight::Union{Number, Nothing}, "~"
+    name::Union{String, Nothing}, "~"
+    cmt::Union{String, Nothing}, "~"
+    desc::Union{String, Nothing}, "~"
+    src::Union{String, Nothing}, "~"
+    link::Union{String, Nothing}, "~"
+    sym::Union{String, Nothing}, "~"
+    type::Union{String, Nothing}, "~"
+    fix::Union{String, Nothing}, "~"
+    sat::Union{Number, Nothing}, "~"
+    hdop::Union{Number, Nothing}, "~"
+    vdop::Union{Number, Nothing}, "~"
+    pdop::Union{Number, Nothing}, "~"
+    ageofdgpsdata::Union{Number, Nothing}, "~"
+    dgpsid::Union{Number, Nothing}, "~"
+    extensions::Union{String, Nothing}, "~"
 end
-
 
 @aml mutable struct TrackSegment "trksegType"
     points::Vector{WayPoint}
     extensions::Union{String, Nothing}, "~"
 end
+
 
 @aml mutable struct Track "trkType"
     name::Union{String, Nothing}, "~"
@@ -81,30 +97,18 @@ end
 
 
 
-@aml mutable struct WayPoint  "wptType"
-    lat::Number, "~"
-    lon::Number, "~"
-    ele::Union{Number, Nothing}, "~"
-    time::Union{DateTime, Nothing}, "~"
-    magvar::Union{Number, Nothing}, "~"
-    geoidheight::Union{Number, Nothing}, "~"
-    name::Union{String, Nothing}, "~"
-    cmt::Union{String, Nothing}, "~"
-    desc::Union{String, Nothing}, "~"
-    src::Union{String, Nothing}, "~"
-    link::Union{String, Nothing}, "~"
-    sym::Union{String, Nothing}, "~"
-    type::Union{String, Nothing}, "~"
-    fix::Union{String, Nothing}, "~"
-    sat::Union{Number, Nothing}, "~"
-    hdop::Union{Number, Nothing}, "~"
-    vdop::Union{Number, Nothing}, "~"
-    pdop::Union{Number, Nothing}, "~"
-    ageofdgpsdata::Union{Number, Nothing}, "~"
-    dgpsid::Union{Number, Nothing}, "~"
+
+
+
+@aml mutable struct Gpx "gpxType"
+    version::String, "~"
+    creator::String, "~"
+    metadata::Union{Metadata, Nothing}, "~"
+    waypoints::Vector{WayPoint}
+    routes::Vector{Route}
+    tracks::Vector{Track}
     extensions::Union{String, Nothing}, "~"
 end
-
 
 # Constraints for WayPoint
 latCheck(lat) = lat >= -90 && lat <= 90
