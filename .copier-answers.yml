@@ -9,4 +9,4 @@ PackageName: GPX
 PackageOwner: F4zination
 PackageUUID: ee3a5d9d-6c02-5b26-ac74-3db00b4a5f5e
 _commit: v0.8.0
-_src_path: https://github.com/abelsiqueira/BestieTemplate.jl
+_src_path: https://github.com/JuliaBesties/BestieTemplate.jl
